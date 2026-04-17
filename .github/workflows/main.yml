@@ -17,10 +17,10 @@ jobs:
             ruby-version: truffleruby
     runs-on: ${{ matrix.os }}
     steps:
-        - uses: actions/checkout@v3
-          with:
-            submodules: recursive
-        - uses: ruby/setup-ruby@v1
-          with:
-            ruby-version: ${{ matrix.ruby-version }}
-        - run: rake ${{matrix.args}}
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+      - run: rake ${{matrix.args}}
