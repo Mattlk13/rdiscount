@@ -10,10 +10,7 @@
 
 
 void
-hoptset(ctx, argc, argv)
-struct h_context *ctx;
-int argc;
-char **argv;
+hoptset(struct h_context *ctx, int argc, char **argv)
 {
     memset(ctx, 0, sizeof *ctx);
     ctx->argc = argc;
@@ -23,22 +20,19 @@ char **argv;
 
 
 char *
-hoptarg(ctx)
-struct h_context *ctx;
+hoptarg(struct h_context *ctx)
 {
     return ctx->optarg;
 }
 
 int
-hoptind(ctx)
-struct h_context *ctx;
+hoptind(struct h_context *ctx)
 {
     return ctx->optind;
 }
 
 char
-hoptopt(ctx)
-struct h_context *ctx;
+hoptopt(struct h_context *ctx)
 {
     return ctx->optopt;
 }
@@ -55,10 +49,7 @@ hopterr(struct h_context *ctx, int val)
 
 
 struct h_opt *
-gethopt(ctx, opts, nropts)
-struct h_context *ctx;
-struct h_opt *opts;
-int nropts;
+gethopt(struct h_context *ctx, struct h_opt *opts, int nropts)
 {
     int i;
     int dashes;

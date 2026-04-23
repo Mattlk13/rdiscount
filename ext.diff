@@ -1,19 +1,22 @@
 diff -U7 ext.orig/generate.c ext.new/generate.c
---- ext.orig/generate.c	2023-12-19 10:02:39.000000000 -0500
-+++ ext.new/generate.c	2023-12-31 11:54:37.000000000 -0500
-@@ -176,21 +176,26 @@
+--- ext.orig/generate.c
++++ ext.new/generate.c
+@@ -173,24 +173,29 @@
+     char bfr[80];
+     va_list ptr;
+ 
      va_start(ptr,fmt);
      vsnprintf(bfr, sizeof bfr, fmt, ptr);
      va_end(ptr);
      Qstring(bfr, f);
- }
- 
- 
-+static int Qchar_mkd_sta_function_t(const int n, const void* iot) {
-+  Qchar(n, iot);
 +}
 +
 +
++static int Qchar_mkd_sta_function_t(const int n, const void* iot) {
++  Qchar(n, iot);
+ }
+ 
+ 
  /* Qanchor() prints out a suitable-for-id-tag version of a string
   */
  static void
@@ -29,11 +32,68 @@ diff -U7 ext.orig/generate.c ext.new/generate.c
   */
  static void
  Qem(MMIOT *f, char c, int count)
+@@ -622,16 +627,15 @@
+ } /* printlinkyref */
+ 
+ 
+ /* helper function for php markdown extra footnotes; allow the user to
+  * define a prefix tag instead of just `fn`
+  */
+ static char *
+-p_or_nothing(p)
+-MMIOT *p;
++p_or_nothing(MMIOT *p)
+ {
+     return p->ref_prefix ? p->ref_prefix : "fn";
+ }
+ 
+ 
+ /* php markdown extra/daring fireball style print footnotes
+  */
 diff -U7 ext.orig/gethopt.c ext.new/gethopt.c
---- ext.orig/gethopt.c	2023-12-19 10:01:53.000000000 -0500
-+++ ext.new/gethopt.c	2023-12-31 11:55:06.000000000 -0500
-@@ -41,16 +41,15 @@
- struct h_context *ctx;
+--- ext.orig/gethopt.c
++++ ext.new/gethopt.c
+@@ -6,64 +6,54 @@
+ #include <stdio.h>
+ #include <string.h>
+ 
+ #include "gethopt.h"
+ 
+ 
+ void
+-hoptset(ctx, argc, argv)
+-struct h_context *ctx;
+-int argc;
+-char **argv;
++hoptset(struct h_context *ctx, int argc, char **argv)
+ {
+     memset(ctx, 0, sizeof *ctx);
+     ctx->argc = argc;
+     ctx->argv = argv;
+     ctx->optind = 1;
+ }
+ 
+ 
+ char *
+-hoptarg(ctx)
+-struct h_context *ctx;
++hoptarg(struct h_context *ctx)
+ {
+     return ctx->optarg;
+ }
+ 
+ int
+-hoptind(ctx)
+-struct h_context *ctx;
++hoptind(struct h_context *ctx)
+ {
+     return ctx->optind;
+ }
+ 
+ char
+-hoptopt(ctx)
+-struct h_context *ctx;
++hoptopt(struct h_context *ctx)
  {
      return ctx->optopt;
  }
@@ -50,9 +110,23 @@ diff -U7 ext.orig/gethopt.c ext.new/gethopt.c
      return old;
  }
  
+ 
+ struct h_opt *
+-gethopt(ctx, opts, nropts)
+-struct h_context *ctx;
+-struct h_opt *opts;
+-int nropts;
++gethopt(struct h_context *ctx, struct h_opt *opts, int nropts)
+ {
+     int i;
+     int dashes;
+     
+ 
+     if ( (ctx == 0) || ctx->optend || (ctx->optind >= ctx->argc) )
+ 	return 0;
 diff -U7 ext.orig/toc.c ext.new/toc.c
---- ext.orig/toc.c	2023-12-19 10:01:53.000000000 -0500
-+++ ext.new/toc.c	2023-12-31 11:56:16.000000000 -0500
+--- ext.orig/toc.c
++++ ext.new/toc.c
 @@ -11,14 +11,19 @@
  #include <stdlib.h>
  #include <ctype.h>
