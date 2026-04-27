@@ -1,5 +1,10 @@
 # RDiscount Changelog
 
+## Version 2.2.7.5 <small>(April 26, 2026)</small>
+
+* Fix build failure in newer compilers that use C23 mode by default,
+  such as Clang on macOS.
+
 ## Version 2.2.7.4 <small>(April 1, 2026)</small>
 
 * Fix crash if `to_html` called on a string longer than INT_MAX (2 GiB of text).
